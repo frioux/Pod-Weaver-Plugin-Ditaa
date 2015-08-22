@@ -152,6 +152,10 @@ plugin allows you to put L<ditaa|http://ditaa.sourceforge.net/> diagrams in your
 pod and render the image for an html view.  In text mode it merely uses the text
 diagram directly.
 
+=head1 SYNTAX
+
+The ditaa syntax L<is documented here|http://ditaa.sourceforge.net/#usage>.
+
 =head1 PERL SUPPORT POLICY
 
 Because this module is geared towards helping release code, as opposed to
