@@ -18,7 +18,6 @@ package Pod::Elemental::Transformer::Ditaa {
    use autodie;
    use File::Temp;
    use Syntax::Keyword::Junction 'any';
-   use Moose::Autobox;
    use IPC::System::Simple 'system';
    use IO::All;
    use MIME::Base64;
@@ -30,14 +29,14 @@ package Pod::Elemental::Transformer::Ditaa {
 
     my $x = 0;
 
-    PASS: for (my $i = 0 ; $i < $children->length ; $i++) {
+    PASS: for (my $i = 0 ; $i < @$children; $i++) {
          my $para = $children->[$i];
          next
            unless $para->isa('Pod::Elemental::Element::Pod5::Region')
            and !$para->is_pod
            and $para->format_name eq 'ditaa';
 
-         my $length = $para->children->length;
+         my $length = @{$para->children};
          confess 'ditaa transformer expects exec region to contain 1 Data para'
            unless $length == 1
            and $para->children->[0]->isa('Pod::Elemental::Element::Pod5::Data');
@@ -51,7 +50,7 @@ package Pod::Elemental::Transformer::Ditaa {
             b64 => $self->_text_to_b64image($text),
          );
 
-         splice @$children, $i, 1, $new_doc->children->flatten;
+         splice @$children, $i, 1, @{$new_doc->children};
       }
 
       return $node;
@@ -86,7 +85,7 @@ package Pod::Elemental::Transformer::Ditaa {
           qq(=end html\n\n)
       );
       Pod::Elemental::Transformer::Pod5->transform_node($new_doc);
-      $new_doc->children->shift
+      shift @{$new_doc->children}
         while $new_doc->children->[0]
         ->isa('Pod::Elemental::Element::Pod5::Nonpod');
 
