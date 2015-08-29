@@ -66,9 +66,7 @@ package Pod::Elemental::Transformer::Ditaa {
       print {$fh} $text;
       close $fh;
 
-      capture {
-         system "ditaa -o $tmp_text $tmp_img";
-      };
+      capture { system qw( ditaa -o ), $tmp_text, $tmp_img };
       my $image = encode_base64(io->file($tmp_img)->binary->all, '');
       unlink $tmp_text;
       unlink $tmp_img;
