@@ -28,7 +28,7 @@ package Pod::Elemental::Transformer::Ditaa {
 
     my $x = 0;
 
-    PASS: for (my $i = 0 ; $i < @$children; $i++) {
+    for (my $i = 0 ; $i < @$children; $i++) {
          my $para = $children->[$i];
          next
            unless $para->isa('Pod::Elemental::Element::Pod5::Region')
