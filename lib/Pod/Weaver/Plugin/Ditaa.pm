@@ -17,7 +17,6 @@ package Pod::Elemental::Transformer::Ditaa {
    use Capture::Tiny 'capture';
    use autodie;
    use File::Temp;
-   use Syntax::Keyword::Junction 'any';
    use IPC::System::Simple 'system';
    use IO::All;
    use MIME::Base64;
