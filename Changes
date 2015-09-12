@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.001003  2015-09-12 09:41:36-07:00 America/Los_Angeles
   - Added DITAA_TRACE support
 
 0.001002  2015-08-28 21:51:19-07:00 America/Los_Angeles
