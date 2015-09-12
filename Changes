@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Added DITAA_TRACE support
 
 0.001002  2015-08-28 21:51:19-07:00 America/Los_Angeles
   - Remove dep on Moose::Autobox

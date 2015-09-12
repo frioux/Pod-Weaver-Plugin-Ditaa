@@ -64,10 +64,15 @@ package Pod::Elemental::Transformer::Ditaa {
       print {$fh} $text;
       close $fh;
 
-      capture { system qw( ditaa -o ), $tmp_text, $tmp_img };
+      my @cmd = (qw( ditaa -o ), $tmp_text, $tmp_img);
+      print STDERR join q( ), @cmd
+         if $ENV{DITAA_TRACE};
+
+      my $merged_out = capture { system @cmd };
+      print STDERR $merged_out if $ENV{DITAA_TRACE};
       my $image = encode_base64(io->file($tmp_img)->binary->all, '');
-      unlink $tmp_text;
-      unlink $tmp_img;
+      unlink $tmp_text unless $ENV{DITAA_TRACE} && $ENV{DITAA_TRACE} =~ m/keep/;
+      unlink $tmp_img unless $ENV{DITAA_TRACE} && $ENV{DITAA_TRACE} =~ m/keep/;
 
       return $image
    }
@@ -151,6 +156,13 @@ diagram directly.
 =head1 SYNTAX
 
 The ditaa syntax L<is documented here|http://ditaa.sourceforge.net/#usage>.
+
+=head1 DEBUGGING
+
+Set the C<DITAA_TRACE> env var and you'll see all of the commands that this
+plugin runs printed to C<STDERR>.  If you set the env var to C<keep> the
+temporary files referenced in the command will not automatically be deleted, so
+you can ensure that the text and image diagrams were created correctly.
 
 =head1 PERL SUPPORT POLICY
 
