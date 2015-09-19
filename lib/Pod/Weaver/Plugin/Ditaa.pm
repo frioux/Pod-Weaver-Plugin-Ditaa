@@ -43,8 +43,16 @@ package Pod::Elemental::Transformer::Ditaa {
          $x++;
          my $text = $para->children->[0]->content;
 
+         my %meta = ( label => "Figure $x" );;
+         my ($meta, $rest) = split /\n\n/, $text, 2;
+
+         if ($rest) {
+            %meta = map { split qr/\s*:\s*/, $_, 2 } split "\n", $meta;
+            $text = $rest;
+         }
+
          my $new_doc = $self->_render_figure(
-            figure => $x,
+            %meta,
             text => $text,
             b64 => $self->_text_to_b64image($text),
          );
@@ -81,10 +89,10 @@ package Pod::Elemental::Transformer::Ditaa {
       my ($self, %args) = @_;
 
       my $new_doc = Pod::Elemental->read_string(
-         "\n\n=begin text\n\nFigure $args{figure}\n\n" .
+         "\n\n=begin text\n\n$args{label}\n\n" .
          "$args{text}\n\n=end text\n\n" .
           qq(\n\n=begin html\n\n) .
-             qq(<p><i>Figure $args{figure}</i>) .
+             qq(<p><i>$args{label}</i>) .
              qq(<img src="data:image/png;base64,$args{b64}"></img></p>\n\n) .
           qq(=end html\n\n)
       );
@@ -116,6 +124,8 @@ In the pod of one of your modules:
  =head1 HOW IT WORKS
 
  =begin ditaa
+
+label: How it works
 
     +--------+   +-------+    +-------+
     |        | --+ ditaa +--> |       |
@@ -152,6 +162,9 @@ sometimes a diagram truly can illuminate your design.  This L<Pod::Weaver>
 plugin allows you to put L<ditaa|http://ditaa.sourceforge.net/> diagrams in your
 pod and render the image for an html view.  In text mode it merely uses the text
 diagram directly.
+
+Note that you may put a C<label: Foo> at the top of your diagram, but if you
+do not you will get a numbered label in the format C<Figure $i>.
 
 =head1 SYNTAX
 
