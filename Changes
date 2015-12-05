@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Allow passing flags to ditaa
 
 0.001004  2015-09-18 20:21:30-07:00 America/Los_Angeles
   - Add configurable label

@@ -54,7 +54,10 @@ package Pod::Elemental::Transformer::Ditaa {
          my $new_doc = $self->_render_figure(
             %meta,
             text => $text,
-            b64 => $self->_text_to_b64image($text),
+            b64 => $self->_text_to_b64image(
+               $text,
+               split qr/\s+/, $para->content || '',
+            ),
          );
 
          splice @$children, $i, 1, @{$new_doc->children};
@@ -64,7 +67,7 @@ package Pod::Elemental::Transformer::Ditaa {
    }
 
    sub _text_to_b64image {
-      my ($self, $text) = @_;
+      my ($self, $text, @flags) = @_;
 
       my $tmp_text = tmpnam();
       my $tmp_img  = tmpnam() . '.png';
@@ -72,7 +75,7 @@ package Pod::Elemental::Transformer::Ditaa {
       print {$fh} $text;
       close $fh;
 
-      my @cmd = (qw( ditaa -o ), $tmp_text, $tmp_img);
+      my @cmd = ('ditaa', @flags, '-o', $tmp_text, $tmp_img);
       print STDERR join q( ), @cmd
          if $ENV{DITAA_TRACE};
 
@@ -171,6 +174,35 @@ do not you will get a numbered label in the format C<Figure $i>.
 =head1 SYNTAX
 
 The ditaa syntax L<is documented here|http://ditaa.sourceforge.net/#usage>.
+
+=head1 PASSING FLAGS TO DITAA
+
+ =begin ditaa -r -S
+
+ label: Passing Flags
+
+    +--------+
+    |        |
+    |  Test  |
+    |        |
+    +---+----+
+
+ =end ditaa
+
+=begin ditaa -r -S
+
+label: Passing Flags
+
+    +--------+
+    |        |
+    |  Test  |
+    |        |
+    +---+----+
+
+=end ditaa
+
+To pass flags to C<ditaa> simply append the flags to the C<< =begin ditaa >>
+directive.
 
 =head1 DEBUGGING
 
