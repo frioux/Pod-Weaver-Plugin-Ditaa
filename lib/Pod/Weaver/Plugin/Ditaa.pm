@@ -125,7 +125,7 @@ In the pod of one of your modules:
 
  =begin ditaa
 
-label: How it works
+ label: How it works
 
     +--------+   +-------+    +-------+
     |        | --+ ditaa +--> |       |
@@ -142,6 +142,8 @@ label: How it works
 =head1 IN ACTION
 
 =begin ditaa
+
+label: How it works
 
    +--------+   +-------+    +-------+
    |        | --+ ditaa +--> |       |
