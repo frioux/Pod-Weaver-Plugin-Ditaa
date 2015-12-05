@@ -2,6 +2,9 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.001006  2015-12-05 15:37:41-08:00 America/Los_Angeles
+  - Rerelease with flags passed in generated POD
+
 0.001005  2015-12-05 09:51:11-08:00 America/Los_Angeles
   - Allow passing flags to ditaa
 
